@@ -2,8 +2,8 @@
 // npm run dev for run on typescript
 
 import express, { Application } from "express";
-import { connectDB } from "../config/mongodb";
 import productRoutes from "./routes/productRoutes";
+import { connectDB } from "../src/services/mongodb";
 
 const app: Application = express();
 connectDB();
