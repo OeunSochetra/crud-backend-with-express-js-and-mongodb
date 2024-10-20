@@ -4,6 +4,8 @@
 import express, { Application } from "express";
 import productRoutes from "./routes/productRoutes";
 import { connectDB } from "../src/services/mongodb";
+import swaggerUi from "swagger-ui-express";
+import { swaggerDocs } from "./config/swagger";
 
 const app: Application = express();
 connectDB();
@@ -11,6 +13,9 @@ connectDB();
 app.use(express.json()); // Middleware to parse JSON
 
 app.use("/api", productRoutes);
+
+// Serve Swagger UI
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // app.get("/", (req: Request, res: Response) => {
 //   res.send("new version of server hello ");

@@ -14,16 +14,7 @@ export const createProduct = async (req: Request, res: Response) => {
   }
 };
 
-// Get all products
-// export const getAllProducts = async (req: Request, res: Response) => {
-//   try {
-//     const products = await Product.find();
-//     res.json(products);
-//   } catch (error) {
-//     res.status(500).json({ message: error });
-//   }
-// };
-
+//Get all products
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
     const { page = 1, pageSize = 10, search = "" } = req.query;
