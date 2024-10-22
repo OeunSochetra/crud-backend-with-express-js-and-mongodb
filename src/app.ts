@@ -1,16 +1,24 @@
-// npm run serve
-// npm run dev for run on typescript
-
 import express, { Application } from "express";
 import productRoutes from "./routes/productRoutes";
 import { connectDB } from "../src/services/mongodb";
 import swaggerUi from "swagger-ui-express";
 import { swaggerDocs } from "./config/swagger";
+import cors from "cors";
 
 const app: Application = express();
 connectDB();
 
 app.use(express.json()); // Middleware to parse JSON
+app.use(cors()); // Use CORS middleware
+
+// Use CORS middleware
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173", // The frontend URL (Vite dev server)
+//     methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+//     credentials: true, // Allow credentials (cookies, auth headers, etc.)
+//   })
+// );
 
 app.use("/api", productRoutes);
 
