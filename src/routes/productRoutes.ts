@@ -73,7 +73,7 @@ router.get("/products", getAllProducts);
  * @swagger
  * /api/products:
  *   get:
- *     summary: Get all products
+ *     summary: Get all products with pagination and search
  *     tags: [Products]
  *     parameters:
  *       - in: query
@@ -105,17 +105,9 @@ router.get("/products", getAllProducts);
  *             schema:
  *               type: object
  *               properties:
- *                 total:
- *                   type: integer
- *                   description: Total number of products
- *                 page:
- *                   type: integer
- *                   description: Current page number
- *                 pageSize:
- *                   type: integer
- *                   description: Number of products per page
- *                 products:
+ *                 data:
  *                   type: array
+ *                   description: List of products
  *                   items:
  *                     type: object
  *                     properties:
@@ -134,6 +126,25 @@ router.get("/products", getAllProducts);
  *                       stock:
  *                         type: number
  *                         description: The stock quantity of the product
+ *                 meta:
+ *                   type: object
+ *                   description: Metadata for pagination and search
+ *                   properties:
+ *                     total:
+ *                       type: integer
+ *                       description: Total number of products matching the search
+ *                     page:
+ *                       type: integer
+ *                       description: Current page number
+ *                       example: 1
+ *                     pageSize:
+ *                       type: integer
+ *                       description: Number of products per page
+ *                       example: 10
+ *                     totalPages:
+ *                       type: integer
+ *                       description: Total number of pages
+ *                       example: 5
  *       500:
  *         description: Server error
  */

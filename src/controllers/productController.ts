@@ -14,46 +14,54 @@ export const createProduct = async (req: Request, res: Response) => {
   }
 };
 
-// get all products
+//Get all products
 
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
-    const products = await Product.find();
-    res.json(products);
+    const { page = 1, limit = 10, search = "" } = req.query;
+
+    // Convert page and limit to numbers
+    const currentPage = parseInt(page as string, 10) || 1;
+    const pageSize = parseInt(limit as string, 10) || 10;
+
+    // Create a search query for the product name (case-insensitive)
+    const searchQuery = search
+      ? { name: { $regex: search, $options: "i" } }
+      : {};
+
+    // Get total number of matching products
+    const totalProducts = await Product.countDocuments(searchQuery);
+
+    // Get paginated product data
+    const products = await Product.find(searchQuery)
+      .skip((currentPage - 1) * pageSize)
+      .limit(pageSize);
+
+    // Calculate total pages
+    const totalPages = Math.ceil(totalProducts / pageSize);
+
+    // Construct response with meta and data
+    res.status(200).json({
+      message: "success",
+      statusCode: 200,
+      data: products, // The array of products
+      meta: {
+        total: totalProducts, // Total number of products found
+        page: currentPage, // Current page number
+        pageSize: pageSize, // Number of products per page
+        totalPages: totalPages, // Total number of pages
+      },
+    });
   } catch (error) {
-    res.status(500).json({ message: error });
+    // Handle errors
+    res.status(500).json({
+      message: "Error fetching products",
+      statusCode: 500,
+      data: null,
+      meta: null,
+    });
   }
 };
-
-//Get all products
-// export const getAllProducts = async (req: Request, res: Response) => {
-//   try {
-//     const { page = 1, pageSize = 10, search = "" } = req.query;
-
-//     // Convert page and pageSize to numbers
-//     const currentPage = parseInt(page as string) || 1;
-//     const limit = parseInt(pageSize as string) || 10;
-
-//     // Create a search query
-//     const searchQuery = search
-//       ? { name: { $regex: search, $options: "i" } } // Case-insensitive search on the 'name' field
-//       : {};
-
-//     const totalProducts = await Product.countDocuments(searchQuery);
-//     const products = await Product.find(searchQuery)
-//       .skip((currentPage - 1) * limit)
-//       .limit(limit);
-
-//     res.status(200).json({
-//       total: totalProducts,
-//       page: currentPage,
-//       pageSize: limit,
-//       products,
-//     });
-//   } catch (error) {
-//     res.status(500).json({ message: error });
-//   }
-// };
 
 // Get a single Product by ID
 export const getProductById = async (req: Request, res: Response) => {
