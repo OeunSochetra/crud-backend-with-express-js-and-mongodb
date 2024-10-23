@@ -98,13 +98,27 @@ export const updateProduct = async (req: Request, res: Response) => {
 export const deleteProduct = async (req: Request, res: Response) => {
   try {
     const product = await Product.findById(req.params.id);
+
     if (product) {
       await product.deleteOne();
-      res.json({ message: "Product removed" });
+
+      res.status(200).json({
+        message: "success",
+        data: {}, // You can return the deleted product details here if needed
+        meta: {}, // Add any meta information if applicable
+      });
     } else {
-      res.status(404).json({ message: "Product not found" });
+      res.status(404).json({
+        message: "Product not found",
+        data: {},
+        meta: {},
+      });
     }
   } catch (error) {
-    res.status(500).json({ message: error });
+    res.status(500).json({
+      message: "An error occurred while deleting the product",
+      data: {},
+      meta: { errorDetails: error }, // Meta can carry error details
+    });
   }
 };
