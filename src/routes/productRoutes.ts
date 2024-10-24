@@ -276,10 +276,9 @@ router.delete("/products/:id", deleteProduct);
  *         description: The ID of the product to delete
  *         schema:
  *           type: string
- *           example: "607d1e3c1f9d3a2a4f3c6c8a"
  *     responses:
  *       200:
- *         description: Product removed successfully
+ *         description: Successfully deleted product
  *         content:
  *           application/json:
  *             schema:
@@ -287,11 +286,16 @@ router.delete("/products/:id", deleteProduct);
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Product removed"
- *       404:
- *         description: Product not found
- *       500:
- *         description: Server error
+ *                   description: A success message
+ *                   example: "success"
+ *                 data:
+ *                   type: object
+ *                   description: The data related to the deleted product, empty if not applicable
+ *                   example: {}
+ *                 meta:
+ *                   type: object
+ *                   description: Additional meta information, empty in this case
+ *                   example: {}
  */
 
 export default router;
