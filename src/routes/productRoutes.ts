@@ -29,19 +29,19 @@ router.post("/products", createProduct);
  *             properties:
  *               name:
  *                 type: string
- *                 description: The name of the product
- *                 example: "Product 1"
+ *                 description: Name of the product
+ *                 example: "Sample Product"
  *               price:
  *                 type: number
- *                 description: The price of the product
+ *                 description: Price of the product
  *                 example: 100
  *               description:
  *                 type: string
- *                 description: The description of the product
- *                 example: "This is a sample product."
+ *                 description: Description of the product
+ *                 example: "This is a sample product description"
  *               stock:
  *                 type: number
- *                 description: The stock quantity of the product
+ *                 description: Stock quantity of the product
  *                 example: 50
  *     responses:
  *       201:
@@ -51,19 +51,65 @@ router.post("/products", createProduct);
  *             schema:
  *               type: object
  *               properties:
- *                 _id:
+ *                 message:
  *                   type: string
- *                   description: The ID of the created product
- *                 name:
- *                   type: string
- *                 price:
- *                   type: number
- *                 description:
- *                   type: string
- *                 stock:
- *                   type: number
+ *                   description: A success message
+ *                   example: "success"
+ *                 data:
+ *                   type: object
+ *                   description: The newly created product data
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                       description: The ID of the created product
+ *                       example: "64adfaecbaf"
+ *                     name:
+ *                       type: string
+ *                       description: The name of the product
+ *                       example: "Sample Product"
+ *                     price:
+ *                       type: number
+ *                       description: The price of the product
+ *                       example: 100
+ *                     description:
+ *                       type: string
+ *                       description: The product description
+ *                       example: "This is a sample product description"
+ *                     stock:
+ *                       type: number
+ *                       description: Stock quantity
+ *                       example: 50
+ *                     createdAt:
+ *                       type: string
+ *                       description: The creation date
+ *                       example: "2024-10-22T12:34:56Z"
+ *                 meta:
+ *                   type: object
+ *                   description: Additional meta information (currently empty)
+ *                   example: {}
  *       500:
  *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: "An error occurred while creating the product"
+ *                 data:
+ *                   type: object
+ *                   description: Empty data object
+ *                   example: {}
+ *                 meta:
+ *                   type: object
+ *                   description: Meta information containing error details
+ *                   properties:
+ *                     errorDetails:
+ *                       type: string
+ *                       description: The detailed error message
+ *                       example: "Validation failed: name is required."
  */
 
 // Get all products

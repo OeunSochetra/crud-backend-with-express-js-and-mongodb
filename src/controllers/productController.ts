@@ -8,9 +8,18 @@ export const createProduct = async (req: Request, res: Response) => {
   try {
     const product = new Product({ name, price, description, stock });
     await product.save();
-    res.status(201).json(product);
+
+    res.status(201).json({
+      message: "success",
+      data: product, // Return the newly created product data
+      meta: {}, // Meta can be populated with additional information if needed
+    });
   } catch (error) {
-    res.status(500).json({ message: (error as Error).message });
+    res.status(500).json({
+      message: "An error occurred while creating the product",
+      data: {},
+      meta: { errorDetails: (error as Error).message }, // Provide detailed error in meta
+    });
   }
 };
 
