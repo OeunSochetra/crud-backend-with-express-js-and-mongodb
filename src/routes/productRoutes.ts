@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import {
   createProduct,
   getAllProducts,
@@ -9,7 +9,18 @@ import {
 
 const router = express.Router();
 
+// const checkAuth = (req: Request, res: Response, next: any) => {
+//   console.log(req.headers);
+//   if (req.headers["authorization"] == "123") {
+//     next();
+//   } else {
+//     res.status(401).send("Unauthorize");
+//   }
+// };
+
 // How to run the swagger http://localhost:4000/api-docs/#/
+
+// router.use(checkAuth);
 
 // Create new products
 router.post("/products", createProduct);
@@ -211,34 +222,84 @@ router.get("/products/:id", getProductById);
  *         description: The ID of the product to retrieve
  *         schema:
  *           type: string
- *           example: "607d1e3c1f9d3a2a4f3c6c8a"
+ *           example: "64afc13e5f9b2e00123b4567"
  *     responses:
  *       200:
- *         description: The product details
+ *         description: Successfully retrieved the product
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 _id:
+ *                 message:
  *                   type: string
- *                   description: The ID of the product
- *                 name:
- *                   type: string
- *                   description: The name of the product
- *                 price:
- *                   type: number
- *                   description: The price of the product
- *                 description:
- *                   type: string
- *                   description: The description of the product
- *                 stock:
- *                   type: number
- *                   description: The stock quantity of the product
+ *                   description: Status message
+ *                   example: "success"
+ *                 data:
+ *                   type: object
+ *                   description: The product data
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                       description: The ID of the product
+ *                     name:
+ *                       type: string
+ *                       description: The name of the product
+ *                     price:
+ *                       type: number
+ *                       description: The price of the product
+ *                     description:
+ *                       type: string
+ *                       description: The description of the product
+ *                     stock:
+ *                       type: number
+ *                       description: The stock quantity of the product
+ *                 meta:
+ *                   type: object
+ *                   description: Additional metadata (empty in this case)
+ *                   example: {}
  *       404:
  *         description: Product not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Status message
+ *                   example: "Product not found"
+ *                 data:
+ *                   type: object
+ *                   description: Empty data object when product is not found
+ *                   example: {}
+ *                 meta:
+ *                   type: object
+ *                   description: Additional metadata (empty in this case)
+ *                   example: {}
  *       500:
  *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: "An error occurred while fetching the product"
+ *                 data:
+ *                   type: object
+ *                   description: Empty data object when an error occurs
+ *                   example: {}
+ *                 meta:
+ *                   type: object
+ *                   description: Metadata containing error details
+ *                   properties:
+ *                     errorDetails:
+ *                       type: string
+ *                       description: Detailed error message
+ *                       example: "Error fetching product: <error message>"
  */
 
 // Update product by ID
@@ -257,7 +318,7 @@ router.put("/products/:id", updateProduct);
  *         description: The ID of the product to update
  *         schema:
  *           type: string
- *           example: "607d1e3c1f9d3a2a4f3c6c8a"
+ *           example: "64afc13e5f9b2e00123b4567"
  *     requestBody:
  *       required: true
  *       content:
@@ -268,42 +329,96 @@ router.put("/products/:id", updateProduct);
  *               name:
  *                 type: string
  *                 description: The name of the product
- *                 example: "Updated Product"
+ *                 example: "Updated Product Name"
  *               price:
  *                 type: number
  *                 description: The price of the product
- *                 example: 150
+ *                 example: 29.99
  *               description:
  *                 type: string
  *                 description: The description of the product
- *                 example: "Updated product description."
+ *                 example: "Updated product description"
  *               stock:
- *                 type: number
+ *                 type: integer
  *                 description: The stock quantity of the product
- *                 example: 30
+ *                 example: 15
  *     responses:
  *       200:
- *         description: The updated product details
+ *         description: Product successfully updated
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 _id:
+ *                 message:
  *                   type: string
- *                   description: The ID of the updated product
- *                 name:
- *                   type: string
- *                 price:
- *                   type: number
- *                 description:
- *                   type: string
- *                 stock:
- *                   type: number
+ *                   description: Status message
+ *                   example: "success"
+ *                 data:
+ *                   type: object
+ *                   description: The updated product data
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                       description: The ID of the product
+ *                     name:
+ *                       type: string
+ *                       description: The name of the product
+ *                     price:
+ *                       type: number
+ *                       description: The price of the product
+ *                     description:
+ *                       type: string
+ *                       description: The description of the product
+ *                     stock:
+ *                       type: integer
+ *                       description: The stock quantity of the product
+ *                 meta:
+ *                   type: object
+ *                   description: Additional metadata (empty in this case)
+ *                   example: {}
  *       404:
  *         description: Product not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Status message
+ *                   example: "Product not found"
+ *                 data:
+ *                   type: object
+ *                   description: Empty data object
+ *                   example: {}
+ *                 meta:
+ *                   type: object
+ *                   description: Additional metadata (empty in this case)
+ *                   example: {}
  *       500:
  *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: "An error occurred while updating the product"
+ *                 data:
+ *                   type: object
+ *                   description: Empty data object when an error occurs
+ *                   example: {}
+ *                 meta:
+ *                   type: object
+ *                   description: Metadata containing error details
+ *                   properties:
+ *                     errorDetails:
+ *                       type: string
+ *                       description: Detailed error message
+ *                       example: "Error updating product: <error message>"
  */
 
 // Delete product by ID

@@ -1,4 +1,4 @@
-import express, { Application } from "express";
+import express, { Application, Response } from "express";
 import productRoutes from "./routes/productRoutes";
 import { connectDB } from "../src/services/mongodb";
 import swaggerUi from "swagger-ui-express";

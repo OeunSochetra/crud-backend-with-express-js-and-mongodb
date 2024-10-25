@@ -72,13 +72,29 @@ export const getAllProducts = async (req: Request, res: Response) => {
   }
 };
 
-// Get a single Product by ID
+// Get a single product by ID
 export const getProductById = async (req: Request, res: Response) => {
   try {
     const product = await Product.findById(req.params.id);
-    res.json(product);
+    if (product) {
+      res.status(200).json({
+        message: "success",
+        data: product,
+        meta: {},
+      });
+    } else {
+      res.status(404).json({
+        message: "Product not found",
+        data: {},
+        meta: {},
+      });
+    }
   } catch (error) {
-    res.status(500).json({ message: error });
+    res.status(500).json({
+      message: "An error occurred while fetching the product",
+      data: {},
+      meta: { errorDetails: (error as Error).message },
+    });
   }
 };
 
@@ -88,18 +104,31 @@ export const updateProduct = async (req: Request, res: Response) => {
   try {
     const product = await Product.findById(req.params.id);
     if (product) {
+      // Update product fields
       product.name = name;
       product.price = price;
       product.description = description;
       product.stock = stock;
 
       const updatedProduct = await product.save();
-      res.json(updatedProduct);
+      res.status(200).json({
+        message: "success",
+        data: updatedProduct,
+        meta: {},
+      });
     } else {
-      res.status(404).json({ message: "Product not found" });
+      res.status(404).json({
+        message: "Product not found",
+        data: {},
+        meta: {},
+      });
     }
   } catch (error) {
-    res.status(500).json({ message: error });
+    res.status(500).json({
+      message: "An error occurred while updating the product",
+      data: {},
+      meta: { errorDetails: (error as Error).message },
+    });
   }
 };
 
