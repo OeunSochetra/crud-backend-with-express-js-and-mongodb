@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import {
   createProduct,
   getAllProducts,
@@ -8,15 +8,6 @@ import {
 } from "../controllers/productController";
 
 const router = express.Router();
-
-// const checkAuth = (req: Request, res: Response, next: any) => {
-//   console.log(req.headers);
-//   if (req.headers["authorization"] == "123") {
-//     next();
-//   } else {
-//     res.status(401).send("Unauthorize");
-//   }
-// };
 
 // How to run the swagger http://localhost:4000/api-docs/#/
 

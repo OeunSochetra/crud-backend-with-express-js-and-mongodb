@@ -1,4 +1,3 @@
-import { timeStamp } from "console";
 import mongoose, { Schema, Document } from "mongoose";
 import { IProducts } from "../constants/common";
 
