@@ -7,7 +7,12 @@ export const register = async (req: Request, res: Response) => {
   try {
     const user = new User({ username, password });
     await user.save();
-    res.json({ message: "User registered successfully" });
+
+    res.status(201).json({
+      message: "success",
+      data: user,
+      meta: {},
+    });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }
@@ -29,10 +34,16 @@ export const login = async (req: Request, res: Response) => {
       return;
     }
     const token = jwt.sign({ id: user._id }, secretKey, {
-      expiresIn: "1h",
+      expiresIn: "365d",
     });
 
-    res.json({ message: "Login successful", token });
+    res.status(201).json({
+      message: "success",
+      data: {
+        accessToken: token,
+      },
+      meta: {},
+    });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }

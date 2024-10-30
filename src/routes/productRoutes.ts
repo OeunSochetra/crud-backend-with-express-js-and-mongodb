@@ -6,6 +6,7 @@ import {
   updateProduct,
   deleteProduct,
 } from "../controllers/productController";
+import { authMiddleware } from "../middlewares/auth";
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ const router = express.Router();
 // router.use(checkAuth);
 
 // Create new products
-router.post("/products", createProduct);
+router.post("/products", authMiddleware as any, createProduct);
 
 /**
  * @swagger
@@ -115,7 +116,7 @@ router.post("/products", createProduct);
  */
 
 // Get all products
-router.get("/products", getAllProducts);
+router.get("/products", authMiddleware as any, getAllProducts);
 
 /**
  * @swagger
@@ -198,7 +199,7 @@ router.get("/products", getAllProducts);
  */
 
 // Get a single product by ID
-router.get("/products/:id", getProductById);
+router.get("/products/:id", authMiddleware as any, getProductById);
 
 /**
  * @swagger
@@ -294,7 +295,7 @@ router.get("/products/:id", getProductById);
  */
 
 // Update product by ID
-router.put("/products/:id", updateProduct);
+router.put("/products/:id", authMiddleware as any, updateProduct);
 
 /**
  * @swagger
@@ -413,7 +414,7 @@ router.put("/products/:id", updateProduct);
  */
 
 // Delete product by ID
-router.delete("/products/:id", deleteProduct);
+router.delete("/products/:id", authMiddleware as any, deleteProduct);
 
 /**
  * @swagger
