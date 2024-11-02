@@ -7,6 +7,16 @@ export interface IProducts {
   stock: number;
 }
 
+export interface IBooks {
+  image: string;
+  author: string;
+  title: string;
+  description: string;
+  originalPrice: number;
+  discountPrice: number;
+  stock: number;
+}
+
 export interface IUsers extends Document {
   username: string;
   password: string;

@@ -1,6 +1,7 @@
 import express, { Application, Response } from "express";
 import productRoutes from "./routes/productRoutes";
 import authRoutes from "./routes/authRoutes";
+import bookRotes from "./routes/bookRotes";
 import { connectDB } from "../src/services/mongodb";
 import swaggerUi from "swagger-ui-express";
 import { swaggerDocs } from "./config/swagger";
@@ -26,6 +27,7 @@ app.use(cors()); // Use CORS middleware
 
 app.use("/api", productRoutes);
 app.use("/api", authRoutes);
+app.use("/api", bookRotes);
 
 // Serve Swagger UI
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
