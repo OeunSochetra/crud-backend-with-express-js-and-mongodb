@@ -84,3 +84,25 @@ export const getAllBooks = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getTopBooks = async (req: Request, res: Response) => {
+  try {
+    const topBooks = await Book.find()
+      .sort({ ratingStar: -1, ratingCount: -1 })
+      .limit(3);
+
+    res.status(200).json({
+      message: "success",
+      statusCode: 200,
+      data: topBooks,
+      meta: {},
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "An error occurred while fetching top books",
+      statusCode: 500,
+      data: {},
+      meta: { errorDetails: (error as Error).message },
+    });
+  }
+};

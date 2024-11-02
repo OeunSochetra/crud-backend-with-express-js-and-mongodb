@@ -1,5 +1,9 @@
 import express from "express";
-import { createBook, getAllBooks } from "../controllers/bookController";
+import {
+  createBook,
+  getAllBooks,
+  getTopBooks,
+} from "../controllers/bookController";
 
 const router = express.Router();
 
@@ -169,5 +173,7 @@ router.get("/books", getAllBooks);
  *                   type: object
  *                   nullable: true
  */
+
+router.get("/books/top", getTopBooks);
 
 export default router;
