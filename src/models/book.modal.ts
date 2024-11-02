@@ -29,6 +29,14 @@ const BookSchema: Schema = new Schema(
       required: [true, "Book Selling Price is required"],
       default: 0,
     },
+    ratingStar: {
+      type: Number,
+      default: 0,
+    },
+    ratingCount: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

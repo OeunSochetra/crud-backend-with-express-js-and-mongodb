@@ -12,6 +12,8 @@ export const createBook = async (req: Request, res: Response) => {
     originalPrice,
     discountPrice,
     stock,
+    ratingStar,
+    ratingCount,
   } = req.body;
   try {
     const book = new Book({
@@ -22,6 +24,8 @@ export const createBook = async (req: Request, res: Response) => {
       originalPrice,
       discountPrice,
       stock,
+      ratingStar,
+      ratingCount,
     });
     await book.save();
 
