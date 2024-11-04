@@ -3,6 +3,7 @@ import {
   createBook,
   getAllBooks,
   getTopBooks,
+  getBookById,
 } from "../controllers/bookController";
 
 const router = express.Router();
@@ -175,5 +176,216 @@ router.get("/books", getAllBooks);
  */
 
 router.get("/books/top", getTopBooks);
+
+/**
+ * @swagger
+ * /api/books/top:
+ *   get:
+ *     summary: Get top 3 books by rating
+ *     tags: [Books]
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved top books
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: success
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                         example: "603d9d1e8b3b5a7e2c8e9c6b"
+ *                       title:
+ *                         type: string
+ *                         example: "Here's to Us"
+ *                       author:
+ *                         type: string
+ *                         example: "Tinhinan Shop"
+ *                       description:
+ *                         type: string
+ *                         example: "Amazon.com: Here's to Us eBook : Albertalli,"
+ *                       image:
+ *                         type: string
+ *                         example: "https://i.pinimg.com/564x/dd/94/d4/dd94d4a1a3b3c3ae540f8b4af0acbd3d.jpg"
+ *                       originalPrice:
+ *                         type: number
+ *                         example: 0
+ *                       discountPrice:
+ *                         type: number
+ *                         example: 29.99
+ *                       stock:
+ *                         type: integer
+ *                         example: 2
+ *                       ratingStar:
+ *                         type: number
+ *                         example: 4
+ *                       ratingCount:
+ *                         type: integer
+ *                         example: 38
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                         example: "2024-11-04T12:34:56Z"
+ *                       updatedAt:
+ *                         type: string
+ *                         format: date-time
+ *                         example: "2024-11-04T12:34:56Z"
+ *                 meta:
+ *                   type: object
+ *                   description: Metadata related to the response
+ *       500:
+ *         description: Server error occurred while fetching top books
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: An error occurred while fetching top books
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 data:
+ *                   type: object
+ *                   description: Empty object as no data is returned in case of error
+ *                 meta:
+ *                   type: object
+ *                   properties:
+ *                     errorDetails:
+ *                       type: string
+ *                       example: "Error message details"
+ */
+
+router.get("/books/:id", getBookById);
+
+/**
+ * @swagger
+ * /api/books/{id}:
+ *   get:
+ *     summary: Get a book by its ID
+ *     tags: [Books]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the book to retrieve
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved the book
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: success
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                       example: "603d9d1e8b3b5a7e2c8e9c6b"
+ *                     title:
+ *                       type: string
+ *                       example: "Here's to Us"
+ *                     author:
+ *                       type: string
+ *                       example: "Tinhinan Shop"
+ *                     description:
+ *                       type: string
+ *                       example: "Amazon.com: Here's to Us eBook : Albertalli,"
+ *                     image:
+ *                       type: string
+ *                       example: "https://i.pinimg.com/564x/dd/94/d4/dd94d4a1a3b3c3ae540f8b4af0acbd3d.jpg"
+ *                     originalPrice:
+ *                       type: number
+ *                       example: 0
+ *                     discountPrice:
+ *                       type: number
+ *                       example: 29.99
+ *                     stock:
+ *                       type: integer
+ *                       example: 2
+ *                     ratingStar:
+ *                       type: number
+ *                       example: 4
+ *                     ratingCount:
+ *                       type: integer
+ *                       example: 38
+ *                     createdAt:
+ *                       type: string
+ *                       format: date-time
+ *                       example: "2024-11-04T12:34:56Z"
+ *                     updatedAt:
+ *                       type: string
+ *                       format: date-time
+ *                       example: "2024-11-04T12:34:56Z"
+ *                   required:
+ *                     - _id
+ *                     - title
+ *                     - author
+ *                     - description
+ *                     - image
+ *                     - originalPrice
+ *                     - discountPrice
+ *                     - stock
+ *                     - ratingStar
+ *                     - ratingCount
+ *                 meta:
+ *                   type: object
+ *                   description: Metadata related to the response
+ *       404:
+ *         description: Book not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Book not found
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 data:
+ *                   type: object
+ *                   description: Empty object as no data was found
+ *                 meta:
+ *                   type: object
+ *                   description: Metadata related to the response
+ *       500:
+ *         description: Server error occurred while fetching the book
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: An error occurred while fetching book
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 data:
+ *                   type: object
+ *                   description: Empty object as no data is returned in case of error
+ */
 
 export default router;

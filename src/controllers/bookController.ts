@@ -106,3 +106,31 @@ export const getTopBooks = async (req: Request, res: Response) => {
     });
   }
 };
+
+// how to get a single book by id
+export const getBookById = async (req: Request, res: Response) => {
+  try {
+    const book = await Book.findById(req.params.id);
+    if (book) {
+      res.status(200).json({
+        message: "success",
+        statusCode: 200,
+        data: book,
+        meta: {},
+      });
+    } else {
+      res.status(404).json({
+        message: "Book not found",
+        statusCode: 404,
+        data: {},
+        meta: {},
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "An error occurred while fetching book",
+      statusCode: 500,
+      data: {},
+    });
+  }
+};
