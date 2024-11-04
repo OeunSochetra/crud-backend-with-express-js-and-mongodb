@@ -17,8 +17,14 @@ export interface IBooks {
   stock: number;
 }
 
-export interface IAuth extends Document {
+export interface IUser extends Document {
   username: string;
+  email: string;
   password: string;
   comparePassword(password: string): Promise<boolean>;
+  image: string;
+}
+
+export interface IAuthUser {
+  id: string;
 }

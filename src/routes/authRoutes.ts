@@ -1,9 +1,10 @@
 import express from "express";
-import { login, register } from "../controllers/authController";
+import { login, register, getMe } from "../controllers/authController";
+import { authMiddleware } from "../middlewares/auth.middleware";
 
 const router = express.Router();
 
-router.post("/register", register);
+router.post("/auth/register", register);
 
 /**
  * @swagger
@@ -29,7 +30,7 @@ router.post("/register", register);
  *         description: Server error
  */
 
-router.post("/login", login);
+router.post("/auth/login", login);
 
 /**
  * @swagger
@@ -73,5 +74,7 @@ router.post("/login", login);
  *       500:
  *         description: Server error
  */
+
+router.get("/me", authMiddleware as any, getMe);
 
 export default router;
