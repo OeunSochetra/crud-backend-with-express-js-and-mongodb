@@ -89,7 +89,7 @@ export const getTopBooks = async (req: Request, res: Response) => {
   try {
     const topBooks = await Book.find()
       .sort({ ratingStar: -1, ratingCount: -1 })
-      .limit(3);
+      .limit(6);
 
     res.status(200).json({
       message: "success",

@@ -1,16 +1,16 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { User } from "../models/user.modal";
+import { Auth } from "../models/auth.modal";
 
 export const register = async (req: Request, res: Response) => {
   const { username, password } = req.body;
   try {
-    const user = new User({ username, password });
-    await user.save();
+    const auth = new Auth({ username, password });
+    await auth.save();
 
     res.status(201).json({
       message: "success",
-      data: user,
+      data: auth,
       meta: {},
     });
   } catch (error) {
@@ -23,7 +23,7 @@ export const login = async (req: Request, res: Response) => {
     const secretKey = process.env.JWT_SECRET || "";
 
     const { username, password } = req.body;
-    const user = await User.findOne({ username });
+    const user = await Auth.findOne({ username });
 
     if (!user) {
       res.status(401).json({ message: "User not found" });
