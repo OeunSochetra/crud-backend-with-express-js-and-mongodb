@@ -5,6 +5,12 @@ import { Auth } from "../models/auth.modal";
 export const register = async (req: Request, res: Response) => {
   const { username, password } = req.body;
   try {
+    const existingUser = await Auth.findOne({ username });
+    if (existingUser) {
+      res.status(400).json({ message: "User already exists" });
+      return;
+    }
+
     const auth = new Auth({ username, password });
     await auth.save();
 
