@@ -1,5 +1,10 @@
 import express from "express";
-import { login, register, getMe } from "../controllers/authController";
+import {
+  login,
+  register,
+  getMe,
+  updateMe,
+} from "../controllers/authController";
 import { authMiddleware } from "../middlewares/auth.middleware";
 
 const router = express.Router();
@@ -76,5 +81,7 @@ router.post("/auth/login", login);
  */
 
 router.get("/me", authMiddleware as any, getMe);
+
+router.put("/me", authMiddleware as any, updateMe);
 
 export default router;

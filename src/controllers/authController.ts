@@ -83,3 +83,27 @@ export const getMe = async (req: Request, res: Response) => {
     res.status(500).json({ message: (error as Error).message });
   }
 };
+
+export const updateMe = async (req: Request, res: Response) => {
+  const authUser = (req as any).user as IAuthUser;
+  const { username, email, image } = req.body;
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      authUser.id,
+      { username, email, image },
+      { new: true, runValidators: true } // `new: true` returns the updated document
+    ).select("-password");
+
+    if (!updatedUser) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
+    res.status(200).json({
+      message: "success",
+      data: updatedUser,
+      meta: {},
+    });
+  } catch (error) {
+    res.status(500).json({ message: (error as Error).message });
+  }
+};
